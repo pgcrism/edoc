@@ -365,11 +365,12 @@ feature {NONE} -- Initialization
 			if Options.short_title = Void then
 				Options.set_short_title (Options.ace_file)
 			end
-			if lace_parser.last_universe = Void then
+			if lace_parser.last_system = Void then
 				Error_handler.raise_error (Error_handler.Error_parsing_ace, << Options.ace_file >>)
 			end
-			Error_handler.report_message ("Done. "+lace_parser.last_universe.clusters.count.out+" clusters")
-			Context.add_clusters (lace_parser.last_universe.clusters, True)
+			Error_handler.report_message ("Done. "+lace_parser.last_system.cluster_count_recursive.out+" clusters")
+--FIXME -- ??? remplaçant last_system.clusters
+			Context.add_clusters (lace_parser.last_system.clusters, True)
 		end
 
 	load_xace_system is
@@ -414,7 +415,7 @@ feature {NONE} -- Initialization
 				nb := 0
 			end
 			from i := 1 until i > nb loop
-				Options.mounted_libraries.force_last (Execution_environment.interpreted_string (xace_parser.last_system.libraries.libraries.item (i).pathname))
+				Options.mounted_libraries.force_last (Execution_environment.interpreted_string (xace_parser.last_system.libraries.libraries.item (i).library.pathname))
 				i := i + 1
 			end
 		end
@@ -426,7 +427,7 @@ feature {NONE} -- Initialization
 			a_filename_exists: file_system.file_exists (a_filename)
 		local
 			xace_error_handler: ET_XACE_DEFAULT_ERROR_HANDLER
-			xace_parser: ET_XACE_LIBRARY_PARSER
+			xace_parser: ET_XACE_SYSTEM_PARSER
 			a_file: KL_TEXT_INPUT_FILE
 		do
 			create a_file.make (a_filename)
@@ -443,15 +444,16 @@ feature {NONE} -- Initialization
 			end
 			if use_title then
 				if Options.title = Void then
-					Options.set_title (xace_parser.last_library.name)
+					Options.set_title (xace_parser.last_system.name)
 				end
 				if Options.short_title = Void then
-					Options.set_short_title (xace_parser.last_library.name)
+					Options.set_short_title (xace_parser.last_system.name)
 				end
 			end
-			if xace_parser.last_library.clusters /= Void then
-				Error_handler.report_message ("Done. "+xace_parser.last_library.clusters.count.out+" clusters")
-				Context.add_clusters (xace_parser.last_library.clusters, add_clusters)
+--FIXME -- parcours récursif de clusters?
+			if xace_parser.last_system.clusters /= Void then
+				Error_handler.report_message ("Done. "+xace_parser.last_system.clusters.count.out+" clusters")
+				Context.add_clusters (xace_parser.last_system.clusters, add_clusters)
 			else
 				Error_handler.report_message ("Done. 0 new top-level clusters")
 			end

@@ -17,8 +17,7 @@ inherit
 		rename
 			make as make_ast_printer,
 			file as ast_file,
-			set_file as set_ast_file,
-			error_handler as ast_error_handler
+			set_file as set_ast_file
 		redefine
 			process_break,
 			process_class,
@@ -64,13 +63,16 @@ feature {NONE} -- Initialisation
 	make (a_universe: like universe) is
 			-- Initialise with 'a_file'.
 		do
-			make_null (a_universe)
+			make_null
+			universe := a_universe
 		end
 
 feature -- Access
 
 	file: EDOC_HTML_OUTPUT_FILE
 			-- Output file
+
+	universe : EDOC_UNIVERSE
 
 feature -- Status report
 
@@ -195,7 +197,7 @@ feature -- Processing
 	process_class_type (a_type: ET_CLASS_TYPE) is
 			-- Process `a_type'.
 		local
-			a_type_mark: ET_KEYWORD
+			a_type_mark: ET_TYPE_MARK
 			a_link: STRING
 		do
 			a_type_mark := a_type.type_mark
@@ -230,7 +232,7 @@ feature -- Processing
 	process_creators is
 			-- Process 'creators'.
 		local
-			a_clients: ET_CLASS_NAME_LIST
+			a_clients: ET_CLIENT_LIST
 		do
 			from
 				creators.start
@@ -248,7 +250,7 @@ feature -- Processing
 					end
 					a_clients := creators.item_for_iteration.second
 					-- TODO: refactor ANY check (what about GENERAL?)
-					if a_clients.count > 0 and not (a_clients.count = 1 and then a_clients.item (1).class_name.name.is_equal ("ANY")) then
+					if a_clients.count > 0 and not (a_clients.count = 1 and then a_clients.item (1).name.name.is_equal ("ANY")) then
 						file.content_line (print_client_list_to_string (a_clients))
 					end
 					file.end_tag
@@ -418,9 +420,9 @@ feature -- Processing
 			-- Process 'features'.
 		local
 			a_clause: DS_PAIR [ET_FEATURE_CLAUSE, DS_PAIR [INTEGER, STRING]]
-			a_clients: ET_CLASS_NAME_LIST
+			a_clients: ET_CLIENT_LIST
 			last_clause: STRING
-			last_clients: ET_CLASS_NAME_LIST
+			last_clients: ET_CLIENT_LIST
 			is_feature_clause_printed: BOOLEAN
 		do
 			from
@@ -440,7 +442,7 @@ feature -- Processing
 							is_feature_clause_printed := True
 
 							-- Check if new feature clause keyword has to be printed
-							if last_clause = Void or else (not last_clause.is_equal (a_clause.second.second) or (last_clients = Void or else not last_clients.same_class_names (a_clause.first.clients))) then
+							if last_clause = Void or else (not last_clause.is_equal (a_clause.second.second) or (last_clients = Void or else not last_clients.same_clients (a_clause.first.clients))) then
 								if last_clause /= Void then
 									file.end_tag
 								end
@@ -453,7 +455,7 @@ feature -- Processing
 								end
 								-- TODO: refactor ANY check (what about GENERAL?)
 								a_clients := a_clause.first.clients
-								if a_clients.count > 0 and not (a_clients.count = 1 and then a_clients.item (1).class_name.name.is_equal ("ANY")) then
+								if a_clients.count > 0 and not (a_clients.count = 1 and then a_clients.item (1).name.name.is_equal ("ANY")) then
 									file.content_line (print_client_list_to_string (a_clause.first.clients))
 								end
 								file.tag_css_content ("span", css_comment, "-- "+a_clause.second.second)
@@ -764,7 +766,7 @@ feature {NONE} -- Implementation
 	et_class: ET_CLASS
 			-- Current class		
 
-	creators: DS_LINKED_LIST [DS_PAIR [ET_FEATURE, ET_CLASS_NAME_LIST]]
+	creators: DS_LINKED_LIST [DS_PAIR [ET_FEATURE, ET_CLIENT_LIST]]
 			-- Creators of class
 
 	feature_clauses: DS_ARRAYED_LIST [DS_PAIR [ET_FEATURE_CLAUSE, DS_PAIR [INTEGER, STRING]]]
@@ -789,7 +791,7 @@ feature {NONE} -- Implementation
 					a_feature_clause := et_class.feature_clauses.item (i)
 					a_name := feature_clause_name (a_feature_clause)
 					if not Options.ignored_feature_clauses.has (a_name) then
-						if not (Options.is_feature_clause_export_none_ignored and a_feature_clause.clients.has_class (universe.none_class)) then
+						if not (Options.is_feature_clause_export_none_ignored and a_feature_clause.clients.has_class (universe.none_type.base_class)) then
 							Options.feature_clause_order.start
 							Options.feature_clause_order.search_forth (a_name)
 							if Options.feature_clause_order.off then
@@ -813,7 +815,7 @@ feature {NONE} -- Implementation
 						a_feature_clause := ancestor.feature_clauses.item (i)
 						a_name := feature_clause_name (a_feature_clause)
 						if not Options.ignored_feature_clauses.has (a_name) then
-							if not (Options.is_feature_clause_export_none_ignored and a_feature_clause.clients.has_class (universe.none_class)) then
+							if not (Options.is_feature_clause_export_none_ignored and a_feature_clause.clients.has_class (universe.universe.none_type.base_class)) then
 								Options.feature_clause_order.start
 								Options.feature_clause_order.search_forth (a_name)
 								if Options.feature_clause_order.off then
@@ -888,7 +890,7 @@ feature {NONE} -- Implementation
 	add_feature (a_feature: ET_FEATURE) is
 			-- Add 'a_feature' to 'features'.
 		do
-			if not Options.is_inherit_export_none_ignored or else not a_feature.clients.has_class (universe.none_class) then
+			if not Options.is_inherit_export_none_ignored or else not a_feature.clients.has_class (universe.none_type.base_class) then
 				features.force_last (a_feature)
 
 				if a_feature.implementation_class.is_equal (et_class) then
@@ -902,7 +904,7 @@ feature {NONE} -- Implementation
 		local
 			i, j, nb_i, nb_j: INTEGER
 			a_creator: ET_CREATOR
-			a_clients: ET_CLASS_NAME_LIST
+			a_clients: ET_CLIENT_LIST
 			a_feature: ET_FEATURE
 		do
 			create creators.make
@@ -919,7 +921,7 @@ feature {NONE} -- Implementation
 --							Error_handler.raise_warning (Error_handler.Error_creator_name_not_in_class, a_creator.item (j).feature_name.name)
 						else
 							Context.global_index.force_last (create {EDOC_CREATOR_INDEX_ENTRY}.make (et_class, a_feature))
-							creators.force_last (create {DS_PAIR [ET_FEATURE, ET_CLASS_NAME_LIST]}.make (a_feature, a_clients))
+							creators.force_last (create {DS_PAIR [ET_FEATURE, ET_CLIENT_LIST]}.make (a_feature, a_clients))
 						end
 						j := j + 1
 					end
@@ -962,7 +964,7 @@ feature {NONE} -- Implementation
 							else
 								all_export ?= exports.first
 							end
-							if all_export = Void or else not all_export.clients_clause.has_class (universe.none_class) then
+							if all_export = Void or else not all_export.clients_clause.has_class (universe.none_type.base_class) then
 								Result.force_last (parent)
 							end
 						end
@@ -1001,13 +1003,13 @@ feature {NONE} -- Implementation
 					else
 						a_line := file.link_css_content_to_string (a_link, css_linked_class_name, a_parent.type.name.name)
 					end
-					if a_parent.actual_parameters = Void then
+					if a_parent.type.actual_parameters = Void then
 						file.tag_content ("div", a_line)
 					else
 						file.start_tag ("div")
 						file.content_line (a_line)
 						file.indent
-						a_parent.actual_parameters.process (Current)
+						a_parent.type.actual_parameters.process (Current)
 						file.end_tag
 					end
 					if Options.is_inherit_tree_generated then
@@ -1019,7 +1021,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	print_client_list_to_string (a_class_name_list: ET_CLASS_NAME_LIST): STRING is
+	print_client_list_to_string (a_class_name_list: ET_CLIENT_LIST): STRING is
 			-- Print class name list to string.
 		require
 			a_class_name_list_not_void: a_class_name_list /= Void
@@ -1033,7 +1035,7 @@ feature {NONE} -- Implementation
 			if nb > 0 then
 				Result.append_string (file.tag_css_content_to_string ("span", css_symbol, "{"))
 				from i := 1 until i > nb loop
-					a_class_name := a_class_name_list.item (i).class_name
+					a_class_name := a_class_name_list.item (i).name
 					a_class := universe.class_by_name (a_class_name.name)
 					if a_class = Void then
 						Result.append_string (file.tag_css_content_to_string ("span", css_class_name, a_class_name.name))
@@ -1054,7 +1056,7 @@ feature {NONE} -- Implementation
 	print_feature_list is
 			-- Print a list of all features of `et_class'.
 		local
-			a_creator_cursor: DS_LIST_CURSOR [DS_PAIR [ET_FEATURE, ET_CLASS_NAME_LIST]]
+			a_creator_cursor: DS_LIST_CURSOR [DS_PAIR [ET_FEATURE, ET_CLIENT_LIST]]
 			a_feature: ET_FEATURE
 			a_clause: DS_PAIR [ET_FEATURE_CLAUSE, DS_PAIR [INTEGER, STRING]]
 			a_link, last_clause: STRING

@@ -54,7 +54,7 @@ feature -- Access
 	clusters: ET_CLUSTERS
 			-- Clusters
 
-	universe: ET_UNIVERSE
+	universe: EDOC_UNIVERSE --ET_UNIVERSE
 			-- Universe
 
 	top_level_clusternames: DS_LINKED_LIST [STRING]
@@ -125,14 +125,17 @@ feature -- Basic operations
 			decorated_ast_factory.set_keep_all_breaks (True)
 
 			if universe = Void then
-				create universe.make (clusters, an_error_handler)
+				create universe.make ("system") --clusters, an_error_handler)
+				universe.set_clusters (clusters)
+				universe.set_error_handler (an_error_handler)
+
 				universe.set_ast_factory (decorated_ast_factory)
-				universe.set_use_assign_keyword (True)
+--				universe.set_use_assign_keyword (True)
 				universe.set_use_attribute_keyword (False)
-				universe.set_use_convert_keyword (True)
-				universe.set_use_recast_keyword (False)
+---				universe.set_use_convert_keyword (True)
+--				universe.set_use_recast_keyword (False)
 				universe.set_use_reference_keyword (True)
-				universe.set_use_void_keyword (True)
+--				universe.set_use_void_keyword (True)
 				universe.activate_processors
 			end
 		ensure
