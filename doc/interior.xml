@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<!--
+    description:
+
+    "EDoc Documentation"
+
+    copyright: "Copyright (c) 2003-2006, Julian Tschannen"
+    license: "Eiffel Forum License v2 (see forum.txt)"
+    date: "$Date$"
+    revision: "$Revision$"
+    -->
+
+<chapter xmlns="http://www.gobosoft.com/eiffel/gobo/documentation" id="edoc/interior">
+	<chapterinfo>
+		<copyright>
+			<year>2005</year>
+			<holder>Julian Tschannen</holder>
+		</copyright>
+		<author>
+			<firstname>Julian</firstname><surname>Tschannen</surname>
+		</author>
+		<email>juliant@student.ethz.ch</email>
+		<date>30 Oktober 2005</date>
+	</chapterinfo>
+	
+	<title>EDoc: Interior</title>
+	
+<section>
+	<title>Program Execution</title>
+	<para>
+		Although <emphasis>EDoc</emphasis> only creates HTML output, the facilities are mostly prepared to support multiple output formats. For this purpose the tool provides a deferred class (<classname cluster="edoc">EDOC_OUTPUT</classname>). The features of this class will be called when the single files have to be created and thus the output can be customized. This file also provides the output format to specify a default options file and an options file class to extend the options file parser.
+	</para>
+	<para>
+		When the output is selected - at the moment just an instance of <classname cluster="edoc.html_output">EDOC_HTML_OUTPUT</classname> will be created - the tool parses the options file and compiles the selected system or library with the GOBO parser.
+	</para>
+	<para>
+		Then the clusters and classes according to the options are filtered and for each cluster and class the output format will be called to create the appropriate file.
+	</para>
+</section>
+
+<section>
+	<title>Program Extension</title>
+	<para>
+		As mentioned in the previous section, <emphasis>EDoc</emphasis> has the capabilities to be extended for other output formats. To provide an extension one has to implement the deferred class <classname cluster="edoc">EDOC_OUTPUT</classname>. It is recommended to look at the code for HTML output as an example.
+	</para>
+	<para>
+		There are also some of the HTML output wich have to be placed in a common ancestor of various output features to faciliate programming new output formats.
+	</para>
+</section>
+
+</chapter>

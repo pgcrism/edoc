@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<project name="edoc" default="help">
+
+  <description>
+    description: "Eiffel Ant file for 'edoc'"
+    system: "Eiffel Documentation Generator"
+    copyright: "Copyright (c) 2003-2006, Julian Tschannen"
+    license: "Eiffel Forum License v2 (see forum.txt)"
+    date: "$Date$"
+    revision: "$Revision$"
+  </description>
+
+  <inherit>
+    <parent location="${GOBO}/misc/eiffel.eant">
+      <redefine target="init_system"/>
+    </parent>
+  </inherit>
+
+  <!-- Implementation -->
+
+  <target name="init_system">
+    <set name="system" value="edoc"/>
+    <set name="system_dir" value="."/>
+  </target>
+
+</project>

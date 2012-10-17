@@ -1,0 +1,35 @@
+# Options file used for Testing
+# 
+# Documentation will be stored in ./output
+
+#################
+# INPUT OPTIONS #
+#################
+
+library = $GOBO/library/kernel/library.xace
+mount = $GOBO/library/kernel.xace
+
+include_mounted_libraries = No
+
+##################
+# OUTPUT OPTIONS #
+##################
+
+# Output directory
+output_directory = ./output
+
+################
+# HTML OPTIONS #
+################
+
+# Documentation title
+title = GOBO API Documentation
+
+# Short documentation title
+short_title = GOBO API
+
+# Version
+version = CVS Sep 05
+
+# URL of homepage
+home_url = http://www.gobosoft.com

@@ -1,0 +1,32 @@
+# Options file for ISE Libraries Documentation
+# 
+# Documentation will be stored $ISE_EIFFEL/docs/src
+
+#################
+# INPUT OPTIONS #
+#################
+
+library = options/ise.xace
+
+##################
+# OUTPUT OPTIONS #
+##################
+
+# Output directory
+output_directory = $ISE_EIFFEL/docs/src
+
+################
+# HTML OPTIONS #
+################
+
+# Documentation title
+title = ISE Libraries API Documentation
+
+# Short documentation title
+short_title = ISE Libraries
+
+# Version
+version =
+
+# URL of homepage
+home_url = http://www.eiffel.com

@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<!--
+    description:
+
+    "EDoc Documentation"
+
+    copyright: "Copyright (c) 2003-2006, Julian Tschannen"
+    license: "Eiffel Forum License v2 (see forum.txt)"
+    date: "$Date$"
+    revision: "$Revision$"
+    -->
+
+<chapter xmlns="http://www.gobosoft.com/eiffel/gobo/documentation" id="edoc/index">
+	<chapterinfo>
+		<copyright>
+			<year>2005</year>
+			<holder>Julian Tschannen</holder>
+		</copyright>
+		<author>
+			<firstname>Julian</firstname><surname>Tschannen</surname>
+		</author>
+		<email>juliant@student.ethz.ch</email>
+		<date>30 Oktober 2005</date>
+	</chapterinfo>
+	
+	<title>EDoc Documentation</title>
+	
+	<para>
+		This is the documentation of the <emphasis>EDoc</emphasis> tool which can generate
+		an API description of an Eiffel library or system.
+	</para>
+	<para>
+		EDoc features are:
+		<blockquote>
+			<variablelist>
+				<varlistentry>
+					<term>
+						- Eiffel Compiler indipendent since the GOBO Eiffel parser is used
+					</term>
+				</varlistentry>
+				<varlistentry>
+					<term>
+						- Can create documentation for libraries which don't fully compile with other compilers (the GOBO Eiffel parser just drops errorneous parts)
+					</term>
+				</varlistentry>
+				<varlistentry>
+					<term>
+						- Can create a documentation page for each cluster with an additional cluster documentation
+					</term>
+				</varlistentry>
+				<varlistentry>
+					<term>
+						- Customiseable through option files
+					</term>
+				</varlistentry>
+				<varlistentry>
+					<term>
+						- HTML Output customisable through CSS file
+					</term>
+				</varlistentry>
+				<varlistentry>
+					<term>
+						- HTML Output conforms to XHTML 1.1
+					</term>
+				</varlistentry>
+			</variablelist>
+		</blockquote>
+	</para>
+	<para>
+		This document is structured as follows:
+		<blockquote>
+			<variablelist>
+				<varlistentry>
+					<term>
+						<link linkend="installation">Installation</link>
+					</term>
+					<listitem><para>
+							Required libraries and installation of EDoc
+						</para></listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term>
+						<link linkend="use">Use</link>
+					</term>
+					<listitem><para>
+							How to use EDoc
+						</para></listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term>
+						<link linkend="options">Options</link>
+					</term>
+					<listitem><para>
+							Available options
+						</para></listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term>
+						<link linkend="interior">Interior and Extension</link>
+					</term>
+					<listitem><para>
+							How EDoc works and how to extend EDoc
+						</para></listitem>
+				</varlistentry>
+				
+				<varlistentry>
+					<term>
+						<link linkend="src/index">API</link>
+					</term>
+					<listitem><para>
+							Output of EDoc for itself
+						</para></listitem>
+				</varlistentry>
+				
+			</variablelist>
+		</blockquote>
+		
+	</para>
+	
+</chapter>
+ 

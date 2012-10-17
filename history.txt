@@ -1,0 +1,26 @@
+Version 1.x - February 2007
+
+	- work-in-progress: XML output
+	- commandline arguments processing using gobo argument parsing library
+	- multiple output formats supported
+
+Version 1.2 - ???
+	
+	- Redesigned Overview page. (Still missing option to include text/html in overview page!)
+	- New general options:
+		"generate_clusters_file" (default: Yes): Generate file with all clusters (previously overview page)
+	- New HTML options:
+		"home_url": Set a url to the home page
+
+Version 1.1 - April 2006
+
+	- New Options:
+		"generate_index_all" (default: Yes): Generate index page over all letters (in addition to the single letter index pages)
+		"print_edoc_notice" (default: Yes): Print a notice that documentation was generated with edoc
+		"env": Set environment variables for xace processor
+		"env-default": Set default environment values for xace processor
+	- Environmentvariables of surrounding system are read correctly
+
+Version 1.0 - Oktober 2005
+
+	- Initial release

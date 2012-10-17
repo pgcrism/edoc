@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+
+<!--
+    description:
+
+    "EDoc Documentation"
+
+    copyright: "Copyright (c) 2003-2006, Julian Tschannen"
+    license: "Eiffel Forum License v2 (see forum.txt)"
+    date: "$Date$"
+    revision: "$Revision$"
+    -->
+
+<chapter xmlns="http://www.gobosoft.com/eiffel/gobo/documentation" id="edoc/options">
+	<chapterinfo>
+		<copyright>
+			<year>2005</year>
+			<holder>Julian Tschannen</holder>
+		</copyright>
+		<author>
+			<firstname>Julian</firstname><surname>Tschannen</surname>
+		</author>
+		<email>juliant@student.ethz.ch</email>
+		<date>30 Oktober 2005</date>
+	</chapterinfo>
+	
+	<title>EDoc: Options</title>
+	
+	<para>
+		<emphasis>EDoc</emphasis> has a wide range of options to specify how the output looks like.
+		These can be set in an options file.
+	</para>
+
+<section>
+	<title>Default Options</title>
+	<para>
+		The default options are specified in the <emphasis>options</emphasis> directory in the file <emphasis>'options.html.default'</emphasis>. This file can be adapted if you want other default options. The file also provides all available options with documentation so you can use it as a base file for other input files.
+	</para>
+</section>	
+
+<section>
+	<title>Writing your own Options File</title>
+	<para>
+		The easiest way to write your own options file is to take the file <emphasis>gobo.options</emphasis> or <emphasis>edoc.options</emphasis> in the <emphasis>options</emphasis> directory and adapt it to your library or system. To specify other than default values, just copy an option line from the default options file and set it to the preferred value.
+	</para>
+</section>
+
+<section>
+	<title>Options</title>
+	<para>
+		Here you have a list of available options grouped as they are in the default options file. The default value of an option (if any) is specified in brackets.
+	</para>
+	<section>
+		<title>Input</title>
+		<para>
+			One of 'ace', 'system' or 'library' and multiple 'mount's can be specified.
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					<strong>ace</strong>: Ace file for which the documentation will be created
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>system</strong>: XAce file of the system for which the documentation will be created
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>library</strong>: XAce file of the library for which the documentation will be created
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>mount</strong>: XAce file of a mounted library
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>ignored_clusters</strong>: Commaseperated list of clusternames which will not be included in the documentation
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>include_mounted_libraries</strong>: (No) Specify if mounted libraries are included in the documentation
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>env</strong>: Set an environment variable for the interpretation of xace files. This will hide environment variables alredy set in the system
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>env-default</strong>: Set a default value of an environment variable for the interpretation of xace files. This value will only be used if no such environment variable is set in the system
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+	<section>
+		<title>Output</title>
+		<itemizedlist>
+			<listitem>
+				<para>
+					<strong>output</strong>: Directory where the documentation will be stored
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>flat_output</strong>: (No) Specify if the output will be in a tree like directory structure like the cluster structure.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_cluster_files</strong>: (Yes) Specify if a page per cluster will be created
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_classes_file</strong>: (Yes) Specify if a page with all classes will be generated
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_index</strong>: (Yes) Specify if index pages will be generated
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_index_all</strong>: (Yes) Specify if additionally to the index pages per letter a single index page over all letters will be generated
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_overview</strong>: (Yes) Specify if an overview page will be generated
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_feature_list</strong>: (Yes) Specify if a feature list is generated per class file
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_inherit_tree</strong>: (Yes) Specify if an inheritance tree is generated per class file
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_ancestors_list</strong>: (Yes) Specify if a list of direct ancestors is generated per class file
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>generate_descendants_list</strong>: (Yes) Specify if a list of known descendants is generated per class file
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+	<section>
+		<title>Parser</title>
+		<itemizedlist>
+			<listitem>
+				<para>
+					<strong>flatten_classes</strong>: (Yes) Specify if the classes are in flat form, i.e. all features from parents are shown on each class page
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>ignore_indexing</strong>: (date,revision) Commaseperated list of indexing tags which will be ignored
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>ignore_inherit_classes</strong>: (ANY,GENERAL) Specify classes which will not show in the inherit tree and whose features are not shown in the documentation unless they are redefined (even in the flat form)
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>ignore_features_export_none</strong>: (Yes) Specify if features which are exported to NONE are ignored
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>ignore_feature_clauses</strong>: Commaseperated list of feature clauses which will be ignored
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>feature_clause_order_file</strong>: (feature_clause_list.default) A file which defines the order of feature clauses. Have a look at the default file in the options directory for further information.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+	<section>
+		<title>HTML</title>
+		<itemizedlist>
+			<listitem>
+				<para>
+					<strong>title</strong>: Title of the documentation
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>short_title</strong>: Short title of the documentation
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>version</strong>: Specify the version of your library / system
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>css</strong>: (default_style.css) CSS file which will be copied to the output directory
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					<strong>print_edoc_notice</strong>: (Yes) Print a notice that documentation was generated with edoc
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+</section>
+
+</chapter>
+

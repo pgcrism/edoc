@@ -1,0 +1,32 @@
+# Options file for GOBO API Documentation
+# 
+# Documentation will be stored in $GOBO/doc/src
+
+#################
+# INPUT OPTIONS #
+#################
+
+library = $GOBO/library/library.xace
+mount = $GOBO/library/kernel.xace
+
+include_mounted_libraries = Yes
+
+##################
+# OUTPUT OPTIONS #
+##################
+
+# Output directory
+output_directory = $GOBO/doc/src
+
+################
+# HTML OPTIONS #
+################
+
+# Documentation title
+title = GOBO API Documentation
+
+# Short documentation title
+short_title = GOBO API
+
+# URL of homepage
+home_url = http://www.gobosoft.com

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+
+<!--
+    description:
+    
+    "EDoc Documentation"
+    
+    copyright: "Copyright (c) 2003-2006, Julian Tschannen"
+    license: "Eiffel Forum License v2 (see forum.txt)"
+    date: "$Date$"
+    revision: "$Revision$"
+    -->
+
+<chapter xmlns="http://www.gobosoft.com/eiffel/gobo/documentation" id="edoc/installation">
+	<chapterinfo>
+		<copyright>
+			<year>2005</year>
+			<holder>Julian Tschannen</holder>
+		</copyright>
+		<author>
+			<firstname>Julian</firstname><surname>Tschannen</surname>
+		</author>
+		<email>juliant@student.ethz.ch</email>
+		<date>30 Oktober 2005</date>
+	</chapterinfo>
+	
+	<title>EDoc: Installation</title>
+	
+<section>
+	<title>Dependencies</title>
+	<itemizedlist>
+		<listitem>
+			<para>
+				<strong>GOBO</strong>:
+				To run <emphasis>EDoc</emphasis> a CVS version of <ulink url="http://www.gobosoft.com">GOBO</ulink> is required.
+				This is necessary because the GOBO Eiffel parser API changed since the latest release and <emphasis>EDoc</emphasis> uses the new API.
+			</para>
+			<para>
+				The CVS version should be newer than September 2005. The latest version used in developement was from 11. Oktober 2005.
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				<strong>Eiffel</strong>:
+				<emphasis>EDoc</emphasis> works with ISE's and SmartEiffel's compiler. The tested ISE version is <emphasis>5.6</emphasis>, the SmartEiffel version is <emphasis>2.2 beta</emphasis>. When SmartEiffel 2.2 is fully compatible with GOBO's CVS version, <emphasis>EDoc</emphasis> should be compatible as well.
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				<strong>Platform</strong>:
+				The developement platform was Linux. But since the only dependency is GOBO and all file manipulation is done through GOBO's file system operations, <emphasis>EDoc</emphasis> should run on all platforms which support GOBO and the mentioned Eiffel compilers. In particular Windows was tested with the ISE 5.6 compiler.
+			</para>
+		</listitem>
+	</itemizedlist>
+	<para>
+	</para>
+	<para>
+		
+	</para>
+</section>
+
+<section>
+	<title>Installation</title>
+	<para>
+		To install <emphasis>EDoc</emphasis> switch to the base directory of <emphasis>EDoc</emphasis> and run <emphasis>'geant compile'</emphasis>. This will generate the executable.
+	</para>
+	<para>
+		If you want to launch <emphasis>EDoc</emphasis> from another location than the installation directory you should set the environment variable
+		<strong>EDOC</strong> to the installation directory. If you always launch <emphasis>EDoc</emphasis> from the
+		installation directory this is not necessary.
+	</para>
+</section>
+
+</chapter>

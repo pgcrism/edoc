@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" 
+	xmlns:edoc="http://edoc.origo.ethz.ch" 
+	targetNamespace="http://edoc.origo.ethz.ch" >
+
+  <xs:element name="root" type="edoc:root_type"/>
+
+  <xs:complexType name="root_type">
+	<xs:sequence>
+        <xs:element ref="edoc:title"/>
+        <xs:element ref="edoc:body"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="document_title" type="xs:string"/>
+  <xs:element name="body">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:header"/>
+		<xs:element minOccurs="0" maxOccurs="1" ref="edoc:cluster" />
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+        	<xs:element ref="edoc:title" maxOccurs="unbounded" minOccurs="1"/>
+        	<xs:element ref="edoc:itemizedlist" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:choice>
+		<xs:element minOccurs="0" maxOccurs="1" ref="edoc:ancestors"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="edoc:descendants"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="edoc:class_body"/>
+        <xs:element ref="edoc:footer"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="header">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:title"/>
+        <xs:element maxOccurs="unbounded" ref="edoc:button_list"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ancestors">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:title"/>
+        <xs:element ref="edoc:classlist"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="descendants">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:title"/>
+        <xs:element ref="edoc:classlist"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="class_body">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:feature_list"/>
+        <xs:element ref="edoc:indexing_clause"/>
+        <xs:element ref="edoc:classname"/>
+        <xs:element ref="edoc:inherit_clause"/>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element ref="edoc:feature_clause"/>
+          <xs:element ref="edoc:feature_clause_body"/>
+        </xs:choice>
+        <xs:element ref="edoc:invariant_clause"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feature_list">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="edoc:itemizedlist"/>
+        <xs:element ref="edoc:title"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="indexing_clause">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="edoc:itemizedlist"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="inherit_clause">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:title"/>
+        <xs:element ref="edoc:itemizedlist"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feature_clause">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:link"/>
+        <xs:element ref="edoc:comment"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feature_clause_body">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="edoc:feature"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="invariant_clause">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:title"/>
+        <xs:element ref="edoc:assertion_body"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="title">
+    <xs:complexType mixed="true">
+	  <xs:choice minOccurs="0" maxOccurs="unbounded">
+	  	<xs:element maxOccurs="unbounded" ref="edoc:cluster" minOccurs="0"/>
+		<xs:element maxOccurs="unbounded" ref="edoc:link" minOccurs="0"/>
+	  </xs:choice>
+	  <xs:attribute name="url" use="optional" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="itemizedlist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="edoc:listitem"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="listitem">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="edoc:class"/>
+        <xs:element ref="edoc:cluster"/>
+		<xs:element ref="edoc:cluster_qualified_name"/>
+        <xs:element ref="edoc:featurename"/>
+		<xs:element ref="edoc:link"/>
+		<xs:element ref="edoc:para"/>
+		<xs:element ref="edoc:title"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="para">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="edoc:class"/>
+		<xs:element ref="edoc:cluster"/>
+        <xs:element ref="edoc:cluster_description"/>
+        <xs:element ref="edoc:cluster_qualified_name"/>
+		<xs:element ref="edoc:comment"/>
+		<xs:element ref="edoc:creator"/>
+		<xs:element ref="edoc:featurename"/>
+        <xs:element ref="edoc:itemizedlist"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="class">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NCName">
+          <xs:attribute name="url" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cluster_description">
+    <xs:complexType mixed="true">
+      <xs:choice>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="edoc:cluster"/>
+		<xs:element minOccurs="0" maxOccurs="unbounded" ref="edoc:cluster_qualified_name"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cluster_qualified_name">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="edoc:cluster"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="creator">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NCName">
+          <xs:attribute name="url" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cluster">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NCName">
+          <xs:attribute name="url" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feature_name">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NCName">
+          <xs:attribute name="url" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feature">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="edoc:feature_body"/>
+        <xs:element ref="edoc:signature"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="footer">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:link"/>
+        <xs:element ref="edoc:footer_title"/>
+        <xs:element ref="edoc:button_list" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="footer_title">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:link"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="button_list">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="edoc:active_button"/>
+        <xs:element ref="edoc:button"/>
+        <xs:element ref="edoc:inactive_button"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="active_button" type="xs:NCName"/>
+  <xs:element name="button">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NCName">
+          <xs:attribute name="url" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="classlist">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="edoc:class"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="classname">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="edoc:class"/>
+        <xs:element ref="edoc:keyword"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="inactive_button" type="xs:NCName"/>
+  <xs:element name="link">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="edoc:keyword"/>
+        <xs:element ref="edoc:featurename"/>
+      </xs:choice>
+      <xs:attribute name="id" type="xs:NCName"/>
+      <xs:attribute name="url" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="featurename">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NCName">
+          <xs:attribute name="url" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="comment">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="edoc:class"/>
+        <xs:element ref="edoc:feature"/>
+        <xs:element ref="edoc:link"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feature_body">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:comment"/>
+        <xs:element minOccurs="0" ref="edoc:precondition_clause"/>
+        <xs:element minOccurs="0" ref="edoc:postcondition_clause"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="precondition_clause">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:keyword"/>
+        <xs:element ref="edoc:assertion_body"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="postcondition_clause">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="edoc:keyword"/>
+        <xs:element ref="edoc:assertion_body"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="signature">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="edoc:classname"/>
+        <xs:element ref="edoc:identifier"/>
+        <xs:element ref="edoc:keyword"/>
+        <xs:element ref="edoc:link"/>
+        <xs:element ref="edoc:symbol"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="assertion_body">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="edoc:identifier"/>
+        <xs:element ref="edoc:keyword"/>
+        <xs:element ref="edoc:symbol"/>
+        <xs:element ref="edoc:assertion_tag"/>
+        <xs:element ref="edoc:special_keyword"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="assertion_tag" type="xs:NMTOKEN"/>
+  <xs:element name="special_keyword" type="xs:NCName"/>
+  <xs:element name="keyword" type="xs:NCName"/>
+  <xs:element name="symbol" type="xs:string"/>
+  <xs:element name="identifier">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NCName">
+          <xs:attribute name="url" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

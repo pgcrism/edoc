@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<system name="edoc">
+  <description>
+    system: "Eiffel Documentation Generator"
+    copyright: "Copyright (c) 2003-2006, Julian Tschannen"
+    license: "Eiffel Forum License v2 (see forum.txt)"
+    date: "$Date$"
+    revision: "$Revision$"
+  </description>
+  <root class="EDOC" creation="make"/>
+  <option unless="${DEBUG}">
+    <option name="assertion" value="none"/>
+    <option name="garbage_collector" value="internal"/>
+    <option name="finalize" value="true"/>
+    <option name="console_application" value="true"/>
+  </option>
+  <option if="${DEBUG}">
+    <option name="assertion" value="all"/>
+    <option name="garbage_collector" value="internal"/>
+    <option name="finalize" value="false"/>
+    <option name="console_application" value="true"/>
+  </option>
+
+  <cluster name="edoc" location="src">
+    <cluster name="processing"/>
+    <cluster name="utility"/>
+    <cluster name="html_output"/>
+	<cluster name="xml_output"/>
+  </cluster>
+
+  <mount location="${GOBO}/library/kernel.xace"/>
+  <mount location="${GOBO}/library/library.xace"/>
+
+</system>

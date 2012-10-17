@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<library name="ise">
+	<description>
+		description: "Xace file for the ISE libraries"
+		date: "$Date$"
+		revision: "$Revision$"
+	</description>
+	<cluster name="base" location="${ISE_EIFFEL}/library/base">
+		<option name="recursive" value="true"/>
+		<option name="read_only" value="true"/>
+		<option name="exclude" value="table_eiffel3"/>
+		<option name="exclude" value="desc"/>
+	</cluster>
+	<cluster name="time" location="${ISE_EIFFEL}/library/time">
+		<option name="read_only" value="true"/>
+    </cluster>
+	<cluster name="thread" location="${ISE_EIFFEL}/library/thread">
+		<option name="recursive" value="true"/>
+		<option name="read_only" value="true"/>
+	</cluster>
+	<cluster name="net" location="${ISE_EIFFEL}/library/net">
+		<option name="recursive" value="true"/>
+		<option name="read_only" value="true"/>
+		<option name="exclude" value="spec"/>
+		<option name="exclude" value="implementation"/>
+		<option name="exclude" value="Clib"/>
+	</cluster>
+	<cluster name="lex" location="${ISE_EIFFEL}/library/lex">
+		<option name="read_only" value="true"/>
+		<option name="exclude" value="spec"/>
+	</cluster>
+	<cluster name="parse" location="${ISE_EIFFEL}/library/parse">
+		<option name="read_only" value="true"/>
+		<option name="exclude" value="spec"/>
+	</cluster>
+	<cluster name="store" location="${ISE_EIFFEL}/library/store">
+		<option name="recursive" value="true"/>
+		<option name="read_only" value="true"/>
+		<option name="exclude" value="install"/>
+		<option name="exclude" value="precomp"/>
+		<option name="exclude" value="Clib"/>
+	</cluster>
+	<cluster name="vision2" location="${ISE_EIFFEL}/library/vision2">
+		<option name="recursive" value="true"/>
+		<option name="read_only" value="true"/>
+		<option name="exclude" value="implementation"/>
+		<option name="exclude" value="spec"/>
+		<option name="exclude" value="Clib"/>
+	</cluster>
+	<cluster name="web" location="${ISE_EIFFEL}/library/web">
+		<option name="recursive" value="true"/>
+		<option name="read_only" value="true"/>
+	</cluster>
+</library>

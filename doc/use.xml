@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+
+<!--
+    description:
+
+    "EDoc Documentation"
+
+    copyright: "Copyright (c) 2003-2006, Julian Tschannen"
+    license: "Eiffel Forum License v2 (see forum.txt)"
+    date: "$Date$"
+    revision: "$Revision$"
+    -->
+
+<chapter xmlns="http://www.gobosoft.com/eiffel/gobo/documentation" id="edoc/use">
+	<chapterinfo>
+		<copyright>
+			<year>2005</year>
+			<holder>Julian Tschannen</holder>
+		</copyright>
+		<author>
+			<firstname>Julian</firstname><surname>Tschannen</surname>
+		</author>
+		<email>juliant@student.ethz.ch</email>
+		<date>30 Oktober 2005</date>
+	</chapterinfo>
+	
+	<title>EDoc: Use</title>
+	
+<section>
+	<title>Basic Use</title>
+	<para>
+		EDoc usage: edoc [-s] {path_to_include_file}
+	</para>
+	<blockquote>
+	<variablelist>
+		<varlistentry>
+			<term>
+				-s: Don't show output (silent)
+			</term>
+		</varlistentry>
+		<varlistentry>
+			<term>
+				path_to_include_file: Path to either an xace or an options file
+			</term>
+		</varlistentry>
+	</variablelist>
+	</blockquote>
+</section>
+
+<section>
+	<title>System Documentation</title>
+	<para>
+		To generate the documentation of a system (i.e. an xace file of a system) switch to the
+		installation directory and launch <emphasis>'edoc path/to/your/system.xace'</emphasis>.
+		This will use default options and put the generated documentation in the directory <emphasis>output</emphasis>.
+	</para>
+	<para>
+		If you want more control how the output looks you should use an <link linkend="options">options</link> file
+		where you can specify various output options.
+	</para>
+</section>
+	
+<section>
+	<title>Library Documentation</title>
+	<para>
+		To generate the documentation of a library (i.e. an xace file of a library) switch to the
+		installation directory and launch <emphasis>'edoc path/to/your/library.xace'</emphasis>.
+		This will use default options and put the generated documentation in the directory <emphasis>output</emphasis>.
+	</para>
+	<para>
+		<strong>Note: the xace file has to be named 'library.xace'! Otherwise it is assumed that the xace specifies a system.</strong>
+	</para>
+	<para>
+		If you want more control how the output looks you should use an <link linkend="options">options</link> file
+		where you can specify various output options.
+	</para>
+</section>
+
+<section>
+	<title>Documentation from an Options file</title>
+	<para>
+		To generate the documentation according to an options input file, switch to the installation directory and
+		launch <emphasis>'edoc path/to/your/options_file'</emphasis>.
+		This will use the options specified in the file including the output directory.
+	</para>
+	<para>
+		If you have an options file which you use often, you can place it in the <emphasis>options</emphasis> directory
+		and give it the name '{your_name}.options'. Then you can simply type <emphasis>'edoc {your_name}'</emphasis> and
+		the appropriate file will be selected.
+	</para>
+</section>
+
+<section>
+	<title>Documentation for Clusters</title>
+	<para>
+		<emphasis>EDoc</emphasis> provides the possibility to set a documentation per cluster. This is achieved by
+		putting a file in the cluster directory which is named one of:
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para>
+				readme.txt / readme.html
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				cluster.txt / cluster.html
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				{cluster_name}.txt / {cluster_name}.html
+			</para>
+		</listitem>
+	</itemizedlist>
+	<para>
+		The '.txt' files will be used as a whole while in the '.html' files only the part in the <emphasis>body</emphasis> tag will be used.
+	</para>
+</section>
+
+</chapter>

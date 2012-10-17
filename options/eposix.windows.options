@@ -1,0 +1,41 @@
+# Options file for ePosix API Documentation
+# 
+# Documentation will be stored in $EPOSIX/doc/src-windows
+
+#################
+# INPUT OPTIONS #
+#################
+
+library = $EPOSIX/src/library.xace
+mount = $GOBO/library/kernel.xace
+mount = $GOBO/library/library.xace
+
+include_mounted_libraries = No
+
+env = GOBO_OS = windows
+
+##################
+# OUTPUT OPTIONS #
+##################
+
+# Output directory
+output_directory = $EPOSIX/doc/src-windows
+
+# Is a single file as index over everything generated?
+generate_index_all = Yes
+
+################
+# HTML OPTIONS #
+################
+
+# Documentation title
+title = ePOSIX API Documentation
+
+# Short documentation title
+short_title = ePOSIX API (windows)
+
+# Version
+#version = 2.2
+
+# URL of homepage
+home_url = http://www.berenddeboer.net/eposix/

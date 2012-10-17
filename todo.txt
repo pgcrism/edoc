@@ -1,0 +1,39 @@
+General:
+-------
+
+- Allow for additional documentation (e.g. in Overview page): 
+	- Option "overview_info_file" / "overview_info_text"
+	- Option "copyright_info_file" / "copyright_info_text"
+- Spearate HTML from base
+	- Options
+	- Features list
+	- Usage list
+- Generate usage list
+- Generate implementation files?? (display whole source code of a class)
+	- Option "generate_implementation"
+
+HTML:
+-----
+
+- Beautify generics (Space between class and opening brackets)
+- Generic parameters in inheritance tree
+- Usage files
+- Remove double linebreak if only ANY invariant exists
+- Link with cluster which contain uppercase letters are wrong
+- XHTML compatibility:
+	- some special charachter in infix and prefix clauses need proper replacement (e.g. &)
+- Allow "indexing.txt" in cluster directory as cluster description
+- Take renaming of features into account (From 'old_name' in 'CLASSNAME')
+
+
+XML:
+----
+
+	- check output of:
+			- `process_invariants'
+			- `process_regular_manifest_string'
+			- `process_special_manifest_string'
+			
+			
+	- write a xslt transformer that generates the same html files as the build-in html output
+	- drupal module

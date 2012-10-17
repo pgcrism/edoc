@@ -1,0 +1,50 @@
+# Options file for GOBO API Documentation
+# 
+# Documentation will be stored in $EM/doc/src
+
+#################
+# INPUT OPTIONS #
+#################
+
+library = $EM/library/library.xace
+mount = $EM/library/em_goof.xace
+mount = $EM/test/em_test.xace
+mount = $GOBO/library/library.xace
+mount = $GOBO/library/kernel.xace
+mount = $EWG/library/runtime/eiffel/library.xace
+
+ignored_clusters = generated_wrapper,ewg_runtime,et_tools,lx_lexical,ma_math,pr_parse,rx_regexp,ts_test,ut_utility,xm_xml_xpath,xm_xml_xslt,refactoring,serialization,structures,support,time
+
+include_mounted_libraries = Yes
+
+##################
+# OUTPUT OPTIONS #
+##################
+
+# Output directory
+output_directory = $EM/doc/src
+
+# Is a single file as index over everything generated?
+generate_index_all = Yes
+
+##################
+# PARSER OPTIONS #
+##################
+
+dummy_classes = GL_CONSTANTS_EXTERNAL
+
+################
+# HTML OPTIONS #
+################
+
+# Documentation title
+title = EiffelMedia API Documentation
+
+# Short documentation title
+short_title = EiffelMedia API
+
+# Version
+version =
+
+# URL of homepage
+home_url = http://eiffelmedia.origo.ethz.ch
