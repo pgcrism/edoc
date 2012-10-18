@@ -64,16 +64,17 @@ feature {NONE} -- Initialisation
 	make (a_universe: like universe) is
 			-- Initialise with 'a_file'.
 		do
-			make_null
 			universe := a_universe
+			make_null
 		end
 
 feature -- Access
 
+	universe: ET_UNIVERSE
+			-- Surrounding universe
+
 	file: EDOC_XML_OUTPUT_FILE
 			-- Output file
-
-	universe : EDOC_UNIVERSE
 
 feature -- Status report
 
@@ -1016,7 +1017,7 @@ feature {NONE} -- Implementation
 					else
 						a_line := file.tag_attributes_content_to_string ("class", << "url", a_link>>, a_parent.type.name.name)
 					end
-					if a_parent.type.actual_parameters = Void or else a_parent.type.actual_parameters.is_empty  then
+					if a_parent.type.actual_parameters = Void then
 						file.tag_content ("listitem", a_line)
 					else
 						file.start_tag ("listitem")

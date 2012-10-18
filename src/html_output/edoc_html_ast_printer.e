@@ -63,16 +63,18 @@ feature {NONE} -- Initialisation
 	make (a_universe: like universe) is
 			-- Initialise with 'a_file'.
 		do
-			make_null
 			universe := a_universe
+			make_null
 		end
 
 feature -- Access
 
+
+	universe: ET_UNIVERSE
+			-- Surrounding universe
+
 	file: EDOC_HTML_OUTPUT_FILE
 			-- Output file
-
-	universe : EDOC_UNIVERSE
 
 feature -- Status report
 
@@ -815,7 +817,7 @@ feature {NONE} -- Implementation
 						a_feature_clause := ancestor.feature_clauses.item (i)
 						a_name := feature_clause_name (a_feature_clause)
 						if not Options.ignored_feature_clauses.has (a_name) then
-							if not (Options.is_feature_clause_export_none_ignored and a_feature_clause.clients.has_class (universe.universe.none_type.base_class)) then
+							if not (Options.is_feature_clause_export_none_ignored and a_feature_clause.clients.has_class (universe.none_type.base_class)) then
 								Options.feature_clause_order.start
 								Options.feature_clause_order.search_forth (a_name)
 								if Options.feature_clause_order.off then
@@ -842,7 +844,11 @@ feature {NONE} -- Implementation
 			i, j: INTEGER
 		do
 			create Result.make_empty
-			comment := a_feature_clause.break.text
+			if attached a_feature_clause.break and then attached a_feature_clause.break.text then
+				comment := a_feature_clause.break.text
+			else
+				comment := ""
+			end
 			i := comment.substring_index ("--", 1)
 			if i > 0 then
 				j := comment.index_of ('%N', i)
@@ -947,14 +953,14 @@ feature {NONE} -- Implementation
 			parent: ET_PARENT
 			exports: ET_EXPORT_LIST
 			all_export: ET_ALL_EXPORT
-			parent_class: ET_CLASS
+			parent_master_class: ET_MASTER_CLASS
 		do
 			create Result.make
 			if a_class.parents /= Void then
 				from i := 1 until i > a_class.parents.count loop
 					parent := a_class.parents.item (i).parent
-					parent_class := universe.class_by_name (parent.type.name.name)
-					if not Options.ignored_inherit_classes.has (parent_class.name.name) then
+--					parent_master_class := universe.master_class_by_name (parent.type.name.name)
+					if not Options.ignored_inherit_classes.has (parent.type.name.name) then
 						exports := parent.exports
 						if exports = Void or not Options.is_inherit_export_none_ignored then
 							Result.force_last (parent)
@@ -1013,7 +1019,7 @@ feature {NONE} -- Implementation
 						file.end_tag
 					end
 					if Options.is_inherit_tree_generated then
-						print_parent_list (universe.class_by_name (a_parent.type.name.name))
+						print_parent_list (universe.master_class_by_name (a_parent.type.name.name).actual_class)
 					end
 					a_cursor.forth
 				end

@@ -145,29 +145,33 @@ feature {NONE} -- Implementation
 	descendants_list: DS_LINKED_LIST [ET_CLASS_NAME] is
 			-- List of direct descendants of `et_class'
 		local
-			class_cursor: DS_HASH_TABLE_CURSOR [ET_CLASS, ET_CLASS_NAME]
+			class_cursor: DS_HASH_TABLE_CURSOR [ET_MASTER_CLASS, ET_CLASS_NAME]
+			l_master_class: ET_MASTER_CLASS
 			ancestors_cursor: DS_LIST_CURSOR [ET_CLASS_NAME]
 			ancestor_found: BOOLEAN
 		do
 			create Result.make
-			class_cursor := Context.universe.classes.new_cursor
+			class_cursor := Context.universe.master_classes.new_cursor
 			from
 				class_cursor.start
 			until
 				class_cursor.after
 			loop
-				ancestors_cursor := ancestors_list (class_cursor.item).new_cursor
-				from
-					ancestor_found := False
-					ancestors_cursor.start
-				until
-					ancestors_cursor.after or ancestor_found
-				loop
-					if ancestors_cursor.item.same_class_name (et_class.name) then
-						Result.force_last (class_cursor.key)
-						ancestor_found := True
+				l_master_class := class_cursor.item
+				if not l_master_class.is_mapped then
+					ancestors_cursor := ancestors_list (l_master_class.actual_class).new_cursor
+					from
+						ancestor_found := False
+						ancestors_cursor.start
+					until
+						ancestors_cursor.after or ancestor_found
+					loop
+						if ancestors_cursor.item.same_class_name (et_class.name) then
+							Result.force_last (class_cursor.key)
+							ancestor_found := True
+						end
+						ancestors_cursor.forth
 					end
-					ancestors_cursor.forth
 				end
 				class_cursor.forth
 			end

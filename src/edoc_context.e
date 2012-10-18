@@ -54,7 +54,7 @@ feature -- Access
 	clusters: ET_CLUSTERS
 			-- Clusters
 
-	universe: EDOC_UNIVERSE --ET_UNIVERSE
+	universe: ET_SYSTEM assign set_universe
 			-- Universe
 
 	top_level_clusternames: DS_LINKED_LIST [STRING]
@@ -76,6 +76,11 @@ feature -- Access
 			-- Output generator
 
 feature -- Element change
+
+	set_universe (a_universe: like universe)
+		do
+			universe := a_universe
+		end
 
 	add_clusters (a_clusters: ET_CLUSTERS; include_clusters: BOOLEAN) is
 			-- Add 'a_clusters' to 'clusters'.
@@ -125,8 +130,9 @@ feature -- Basic operations
 			decorated_ast_factory.set_keep_all_breaks (True)
 
 			if universe = Void then
-				create universe.make ("system") --clusters, an_error_handler)
+				create universe.make ("system")
 				universe.set_clusters (clusters)
+			end
 				universe.set_error_handler (an_error_handler)
 
 				universe.set_ast_factory (decorated_ast_factory)
@@ -136,8 +142,11 @@ feature -- Basic operations
 --				universe.set_use_recast_keyword (False)
 				universe.set_use_reference_keyword (True)
 --				universe.set_use_void_keyword (True)
+				universe.set_preparse_enabled (True)
+				universe.set_preparse_multiple_mode
+				universe.preparse
 				universe.activate_processors
-			end
+--			end
 		ensure
 			universe_generated: universe /= Void
 		end
@@ -156,7 +165,7 @@ feature -- Basic operations
 
 			-- Parsing
 			Error_handler.report_message ("EiffelParser: Parsing all - Start: "+system_clock.time_now.time_out)
-			universe.parse_all
+			universe.parse_all_recursive
 			universe.check_provider_validity
 			Error_handler.report_message ("EiffelParser: Parsing done - Finish: "+system_clock.time_now.time_out)
 
@@ -170,7 +179,7 @@ feature -- Basic operations
 				a_class := universe.class_by_name (dummy_classes.item)
 				if a_class = Void then
 					Error_handler.report_message ("Creating dummy class: "+a_class.name.name)
-					a_class := universe.eiffel_class (create {ET_IDENTIFIER}.make (dummy_classes.item))
+					a_class := universe.master_class (create {ET_IDENTIFIER}.make (dummy_classes.item)).actual_class
 				else
 					Error_handler.report_message ("Clearing dummy class: "+a_class.name.name)
 					a_class.feature_clauses.wipe_out
@@ -356,22 +365,30 @@ feature {NONE} -- Implementation
 	index_classes is
 			-- Index all classes which will be processed.
 		local
-			a_class_cursor: DS_HASH_TABLE_CURSOR [ET_CLASS, ET_CLASS_NAME]
+			a_class_cursor: DS_HASH_TABLE_CURSOR [ET_MASTER_CLASS, ET_CLASS_NAME]
+			l_master_class: ET_MASTER_CLASS
 			a_class: ET_CLASS
 			an_index_entry: EDOC_CLASS_INDEX_ENTRY
+			l_master_classes : DS_LINKED_LIST[ET_MASTER_CLASS]
+			l_clusters : DS_LINKED_LIST[ET_CLUSTER]
+			l_classes: DS_LINKED_LIST[ET_CLASS]
 		do
 			Error_handler.report_message ("Indexing classes")
-			a_class_cursor := universe.classes.new_cursor
+
+			a_class_cursor := universe.master_classes.new_cursor
 			from
 				a_class_cursor.start
 			until
 				a_class_cursor.after
 			loop
-				a_class := a_class_cursor.item
-				if a_class.group /= Void and then a_class.group.cluster /= Void and then documented_clusters.has (a_class.group.cluster) then
-					documented_classes.force_last (a_class)
-					create an_index_entry.make (a_class)
-					global_index.force_last (an_index_entry)
+				l_master_class := a_class_cursor.item
+				if not l_master_class.is_mapped then
+					a_class := l_master_class.actual_class
+					if a_class.group /= Void and then a_class.group.is_cluster and then a_class.group.cluster /= Void and then documented_clusters.has (a_class.group.cluster) then
+						documented_classes.force_last (a_class)
+						create an_index_entry.make (a_class)
+						global_index.force_last (an_index_entry)
+					end
 				end
 				a_class_cursor.forth
 			end
@@ -434,6 +451,7 @@ feature {NONE} -- Implementation
 		local
 			previous_directory: STRING
 			a_class_cursor: DS_LIST_CURSOR [ET_CLASS]
+			l_classes: DS_LINKED_LIST[ET_CLASS]
 		do
 			-- Change to cluster directory
 			if not Options.is_output_flat then
@@ -450,7 +468,7 @@ feature {NONE} -- Implementation
 				output_generator.generate_cluster_file (a_cluster)
 			end
 
-			a_class_cursor := universe.classes_by_group (a_cluster).new_cursor
+			a_class_cursor := universe.classes_in_group (a_cluster).new_cursor
 			from
 				a_class_cursor.start
 			until

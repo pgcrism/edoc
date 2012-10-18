@@ -7,23 +7,52 @@ note
 class
 	EDOC_UNIVERSE
 
-inherit
-	ET_SYSTEM
-
 create
 
 	make
+
+feature {} -- Initialization
+
+	make (a_universe: like universe)
+		do
+			universe := a_universe
+		end
+
+feature -- Access
+
+	universe : ET_SYSTEM
 
 feature -- Access
 
 	classes: DS_HASH_TABLE [ET_CLASS, ET_CLASS_NAME]
 			-- Classes in universe
+			local
+				l : DS_LINKED_LIST[ET_CLASS]
+				u : DS_LINKED_LIST[ET_UNIVERSE]
 			do
-				create Result.make (10)
-				master_classes_do_recursive (agent (cl : ET_MASTER_CLASS; coll : DS_HASH_TABLE[ET_CLASS, ET_CLASS_NAME])
-					do
-						coll.force (cl.actual_class, cl.actual_class.name)
-					end (?, Result))
+				create l.make
+				universe.classes_do_recursive (agent l.put_last (?))
+				if classes_impl = Void then
+					create Result.make (10)
+	--				master_classes_do_recursive (agent (cl : ET_MASTER_CLASS; coll : DS_HASH_TABLE[ET_CLASS, ET_CLASS_NAME])
+	--					do
+	--						coll.force (cl.actual_class, cl.actual_class.name)
+	--					end (?, Result))
+						universe.clusters_do_explicit (agent (c : ET_CLUSTER; ht : DS_HASH_TABLE[ET_CLASS,ET_CLASS_NAME])
+							do
+								c.classes_do_recursive (
+									agent (cla : ET_CLASS; ht2: DS_HASH_TABLE[ET_CLASS,ET_CLASS_NAME])
+										do
+											ht2.force (cla, cla.name)
+										end
+									(?, ht)
+									)
+							end (?, Result)
+							)
+					classes_impl := Result
+				else
+					Result := classes_impl
+				end
 			end
 
 	classes_by_group (a_group: ET_GROUP): DS_ARRAYED_LIST [ET_CLASS] is
@@ -35,7 +64,7 @@ feature -- Access
 --			a_cursor: DS_HASH_TABLE_CURSOR [ET_CLASS, ET_CLASS_NAME]
 --			a_class: ET_CLASS
 		do
-			Result := classes_in_group_recursive (a_group)
+			Result := universe.classes_in_group_recursive (a_group)
 --			create Result.make (initial_classes_by_group_capacity)
 --			a_cursor := classes.new_cursor
 --			from a_cursor.start until a_cursor.after loop
@@ -56,32 +85,41 @@ feature -- Access
 			no_void_class: not Result.has (Void)
 		end
 
-	eiffel_class (a_name: ET_CLASS_NAME): ET_CLASS
+	eiffel_class (a_name: STRING): ET_CLASS
 		require
 			a_name_not_void: a_name /= Void
 		do
-			--	eiffel_class (a_name: ET_CLASS_NAME): ET_CLASS is
-			--			-- Class named `a_name' in universe;
-			--			-- add this class to universe if not found
-			--		require
-			--			a_name_not_void: a_name /= Void
-			--		do
-			--			classes.search (a_name)
-			--			if classes.found then
-			--				Result := classes.found_item
-			--			else
-			--				basic_classes.search (a_name)
-			--				if basic_classes.found then
-			--					Result := basic_classes.found_item
-			--				else
-			--					Result := ast_factory.new_class (a_name, classes.count + 1)
-			--					classes.force_last (Result, a_name)
-			--				end
-			--			end
-			--		ensure
-			--			eiffel_class_not_void: Result /= Void
-			--		end		
+			Result := universe.master_class (create {ET_IDENTIFIER}.make (a_name)).actual_class
+
+--			--	eiffel_class (a_name: ET_CLASS_NAME): ET_CLASS is
+--			--			-- Class named `a_name' in universe;
+--			--			-- add this class to universe if not found
+--			--		require
+--			--			a_name_not_void: a_name /= Void
+--			--		do
+--			classes.search (a_name)
+--			if classes.found then
+--				Result := classes.found_item
+--			else
+--				check false end
+--			end
+--			--			classes.search (a_name)
+--			--			if classes.found then
+--			--				Result := classes.found_item
+--			--			else
+--			--				basic_classes.search (a_name)
+--			--				if basic_classes.found then
+--			--					Result := basic_classes.found_item
+--			--				else
+--			--					Result := ast_factory.new_class (a_name, classes.count + 1)
+--			--					classes.force_last (Result, a_name)
+--			--				end
+--			--			end
+--			--		ensure
+--			--			eiffel_class_not_void: Result /= Void
+--			--		end		
 		end
 
+	classes_impl : detachable like classes
 
 end

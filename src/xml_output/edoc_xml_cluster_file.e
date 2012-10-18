@@ -75,7 +75,7 @@ feature -- Basic operations
 				end_tag -- itemizedlist
 			end
 
-			class_list := Context.universe.classes_by_group (cluster)
+			class_list := Context.universe.classes_in_group (cluster)
 			if class_list.count > 0 then
 				Class_sorter.sort (class_list)
 				tag_content ("title", "Classes")
