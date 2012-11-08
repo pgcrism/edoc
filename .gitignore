@@ -1,0 +1,12 @@
+EIFGENs
+*.bak
+edoc.ecf
+edoc.epr
+edoc.exe
+edoc.rc
+EIFGEN
+EIFGENs
+preferences.wb
+metrics
+output
+

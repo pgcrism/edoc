@@ -312,7 +312,7 @@ feature {NONE} -- Initialization
 				Options.mounted_libraries.forth
 			end
 			if not Options.mounted_libraries.is_empty then
-				Error_handler.report_message ("Mounted libraries inlcuded: "+boolean_to_string (Options.are_mounted_libraries_included))
+				Error_handler.report_message ("Mounted libraries included: "+boolean_to_string (Options.are_mounted_libraries_included))
 			end
 			Error_handler.report_message ("Ignored clusters: "+list_to_string (Options.ignored_clusters))
 
@@ -462,6 +462,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	version : UT_VERSION
+		once
+			create Result.make (1, 3, 0, 1)
+		end
+
 	edoc_output: EDOC_OUTPUT
 			-- Selected output type
 
@@ -512,7 +517,7 @@ feature -- Argument parsing
 			a_parser: AP_PARSER
 		do
 			create a_parser.make
-			a_parser.set_application_description ("Eiffel documentation generator.")
+			a_parser.set_application_description ("Eiffel documentation generator. Version: "+ version.out)
 
 			a_parser.set_parameters_description ("{path_to_xace_file/path_to_options_file}")
 

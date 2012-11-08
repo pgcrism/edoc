@@ -194,6 +194,7 @@ feature -- Processing
 				process_indexing_list (a_class.second_indexing)
 				are_strings_comments := False
 			end
+			file.tag_css_content ("span", css_keyword, "end")
 		end
 
 	process_class_type (a_type: ET_CLASS_TYPE) is
@@ -507,7 +508,7 @@ feature -- Processing
 			an_item: ET_INDEXING
 			a_tag: ET_TAG
 		do
-			file.tag_css_content ("h2", css_keyword, "indexing")
+			file.tag_css_content ("h2", css_keyword, "note") -- "indexing")
 			file.start_tag_css ("div", css_indexing_list)
 
 			nb := a_list.count
