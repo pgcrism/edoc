@@ -87,10 +87,11 @@ feature {NONE} -- Initialization
 					load_ace
 				end
 				if Options.xace_system /= Void then
-					load_xace_system
+					load_xace_system (Options.xace_system)
 				end
 				if Options.xace_library /= Void then
-					load_xace_library (Options.xace_library, True, True)
+					--load_xace_library (Options.xace_library, True, True)
+					load_xace_system (Options.xace_library)
 				end
 
 				if options.are_mounted_libraries_included then
@@ -373,7 +374,7 @@ feature {NONE} -- Initialization
 			context.universe := lace_parser.last_system
 		end
 
-	load_xace_system is
+	load_xace_system (a_system_name: STRING) is
 			-- Load xace system file.
 		require
 			xace_system_not_void: Options.xace_system /= Void
@@ -384,7 +385,7 @@ feature {NONE} -- Initialization
 			a_file: KL_TEXT_INPUT_FILE
 			i, nb: INTEGER
 		do
-			create a_file.make (Options.xace_system)
+			create a_file.make (a_system_name)
 			a_file.open_read
 			if not a_file.is_open_read then
 				Error_handler.raise_error (Error_handler.Error_xace_file_not_readable, << Options.xace_system >>)
@@ -458,6 +459,7 @@ feature {NONE} -- Initialization
 			else
 				Error_handler.report_message ("Done. 0 new top-level clusters")
 			end
+--			context.universe := xace_parser.last_library
 		end
 
 feature -- Access
