@@ -133,20 +133,15 @@ feature -- Basic operations
 				create universe.make ("system")
 				universe.set_clusters (clusters)
 			end
-				universe.set_error_handler (an_error_handler)
+			universe.set_error_handler (an_error_handler)
 
-				universe.set_ast_factory (decorated_ast_factory)
---				universe.set_use_assign_keyword (True)
-				universe.set_use_attribute_keyword (False)
----				universe.set_use_convert_keyword (True)
---				universe.set_use_recast_keyword (False)
-				universe.set_use_reference_keyword (True)
---				universe.set_use_void_keyword (True)
-				universe.set_preparse_enabled (True)
-				universe.set_preparse_multiple_mode
-				universe.preparse
-				universe.activate_processors
---			end
+			universe.set_ast_factory (decorated_ast_factory)
+			universe.set_use_attribute_keyword (False)
+			universe.set_use_reference_keyword (True)
+			universe.set_preparse_enabled (True)
+			universe.set_preparse_multiple_mode
+			universe.preparse
+			universe.activate_processors
 		ensure
 			universe_generated: universe /= Void
 		end

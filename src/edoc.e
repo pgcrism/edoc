@@ -211,44 +211,6 @@ feature {NONE} -- Initialization
 			end
 		end
 
---	load_commandline_parameters is
---			-- Load commandline parameters.
---		local
---			an_option: STRING
---			a_filename: STRING
---		do
---			if (has_option ('s') and Arguments.argument_count > 1) or (not has_option ('s') and Arguments.argument_count > 0) then
---				an_option := Arguments.argument (1)
---				if an_option.is_equal ("-s") then
---					an_option := Arguments.argument (2)
---				end
---				a_filename := Execution_environment.interpreted_string (an_option)
---				if file_system.file_exists (a_filename) then
---					-- Check if xace or options file
---					if file_system.has_extension (a_filename, "xace") then
---						-- Load xace file
---						-- TODO: check if library or system (this is a wild guess here...)
---						if a_filename.has_substring ("library") then
---							Options.set_xace_library (a_filename)
---						else
---							Options.set_xace_system (a_filename)
---						end
---					elseif file_system.has_extension (a_filename, "ace") then
---						-- Load ace file
---						Options.set_ace_file (a_filename)
---					else
---						-- Load options file
---						load_options_file (a_filename)
---					end
---				else
---					a_filename := file_system.pathname (default_options_directory, an_option+".options")
---					if file_system.file_exists (a_filename) then
---						load_options_file (a_filename)
---					end
---				end
---			end
---		end
-
 	check_options is
 			-- Check essential options if they are valid.
 		local
