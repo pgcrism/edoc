@@ -349,8 +349,8 @@ feature {NONE} -- Initialization
 	load_xace_system (a_system_name: STRING) is
 			-- Load xace system file.
 		require
-			xace_system_not_void: Options.xace_system /= Void
-			xace_system_exists: file_system.file_exists (Options.xace_system)
+			a_system_name_not_void: a_system_name /= Void
+			a_system_name_exists: file_system.file_exists (a_system_name)
 		local
 			xace_error_handler: ET_XACE_DEFAULT_ERROR_HANDLER
 			xace_parser: ET_XACE_SYSTEM_PARSER
@@ -360,14 +360,14 @@ feature {NONE} -- Initialization
 			create a_file.make (a_system_name)
 			a_file.open_read
 			if not a_file.is_open_read then
-				Error_handler.raise_error (Error_handler.Error_xace_file_not_readable, << Options.xace_system >>)
+				Error_handler.raise_error (Error_handler.Error_xace_file_not_readable, << a_system_name >>)
 			end
 			create xace_error_handler.make_standard
 			create xace_parser.make (xace_error_handler)
 			xace_parser.set_shallow (True)
 			xace_parser.parse_file (a_file)
 			if xace_error_handler.has_error then
-				Error_handler.raise_error (Error_handler.Error_parsing_xace, << Options.xace_system >> )
+				Error_handler.raise_error (Error_handler.Error_parsing_xace, << a_system_name >> )
 			end
 			if Options.title = Void then
 				Options.set_title (xace_parser.last_system.system_name)
@@ -486,7 +486,7 @@ feature -- Access
 
 	version : UT_VERSION
 		once
-			create Result.make (1, 4, 0, 1)
+			create Result.make (1, 4, 1, 1)
 		end
 
 	edoc_output: EDOC_OUTPUT

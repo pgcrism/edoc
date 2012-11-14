@@ -62,6 +62,8 @@ feature {NONE} -- Initialisation
 			option_processors.put (agent process_ignore_inherit_classes (?), "ignore_inherit_classes")
 			option_processors.put (agent process_boolean (?, agent Options.set_feature_clause_export_none_ignored (?)), "ignore_features_export_none")
 			option_processors.put (agent process_feature_clause_order_file (?), "feature_clause_order_file")
+			option_processors.put (agent process_ignore_inherit_classes_file (?), "ignore_inherit_classes_file")
+			option_processors.put (agent process_ignore_feature_clauses_file (?), "ignore_feature_clauses_file")
 			option_processors.put (agent process_ignore_feature_clauses (?), "ignore_feature_clauses")
 
 			option_processors.put (agent process_dummy_classes (?), "dummy_classes")
@@ -224,6 +226,40 @@ feature {NONE} -- Implementation
 		do
 			a_dirname := file_system.canonical_pathname (file_system.absolute_pathname (Execution_environment.interpreted_string (a_value)))
 			Options.set_output_direcotry (a_dirname)
+		end
+
+	process_ignore_inherit_classes_file (a_value: STRING)
+			-- Process 'ignore_inherit_classes_file' option.
+		local
+			a_filename: STRING
+		do
+			a_filename := file_system.absolute_pathname (Execution_environment.interpreted_string (a_value))
+			if not file_system.file_exists (a_filename) then
+				a_filename := file_system.pathname (dirname, Execution_environment.interpreted_string (a_value))
+			end
+			if file_system.file_exists (a_filename) then
+				Options.ignored_inherit_classes.wipe_out
+				Options.ignored_inherit_classes.extend_last (file_to_string_list (a_filename))
+			else
+				Error_handler.raise_warning (Error_handler.Error_ignore_inherited_classes_file_not_found, << a_value >>)
+			end
+		end
+
+	process_ignore_feature_clauses_file (a_value: STRING)
+			-- Process 'ignore_feature_clauses_file' option.
+		local
+			a_filename: STRING
+		do
+			a_filename := file_system.absolute_pathname (Execution_environment.interpreted_string (a_value))
+			if not file_system.file_exists (a_filename) then
+				a_filename := file_system.pathname (dirname, Execution_environment.interpreted_string (a_value))
+			end
+			if file_system.file_exists (a_filename) then
+				Options.ignored_feature_clauses.wipe_out
+				Options.ignored_feature_clauses.extend_last (file_to_string_list (a_filename))
+			else
+				Error_handler.raise_warning (Error_handler.Error_ignore_feature_clauses_file_not_found, << a_value >>)
+			end
 		end
 
 	process_feature_clause_order_file (a_value: STRING) is

@@ -50,6 +50,9 @@ feature {NONE} -- Initialisation
 			Error_messages.put ("Ace file '{1}' not readable", Error_ace_file_not_readable)
 			Error_messages.put ("ECF file '{1}' not found", error_ecf_file_not_found)
 
+			Error_messages.put ("Ignore Inherited Classes file '{1}' not found", error_ignore_inherited_classes_file_not_found)
+			error_messages.put ("Ignore Feature clauses file '{1}' not found", error_ignore_feature_clauses_file_not_found)
+			
 			Error_messages.put ("No input file specified: Ace, XAce system or XAce library", Error_no_input_file)
 			Error_messages.put ("XAce file '{1}' of mounted library not found", Error_mounted_xace_not_found)
 			Error_messages.put ("Failed to create output directory '{1}'", Error_create_output_directory)

@@ -55,6 +55,10 @@ feature -- Access
 	Error_xml_footer_file_not_found: INTEGER is 172
 			-- xml_footer_file file not found
 
+	Error_ignore_inherited_classes_file_not_found: INTEGER = 173
+
+	Error_ignore_feature_clauses_file_not_found: INTEGER = 174
+
 	Error_xace_file_not_found: INTEGER is 200
 			-- Xace file not found
 
@@ -74,7 +78,7 @@ feature -- Access
 			-- Mounted xace file not found
 
 	Error_ecf_file_not_found : INTEGER = 207
-	
+
 	Error_create_output_directory: INTEGER is 210
 			-- Failed to create output directory
 
