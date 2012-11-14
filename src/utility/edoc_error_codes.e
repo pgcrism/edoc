@@ -73,6 +73,8 @@ feature -- Access
 	Error_mounted_xace_not_found: INTEGER is 206
 			-- Mounted xace file not found
 
+	Error_ecf_file_not_found : INTEGER = 207
+	
 	Error_create_output_directory: INTEGER is 210
 			-- Failed to create output directory
 
@@ -81,6 +83,9 @@ feature -- Access
 
 	Error_parsing_xace: INTEGER is 231
 			-- Failed to parse xace file
+
+	Error_parsing_ecf: INTEGER is 232
+			-- Failed to parse ecf file
 
 	Error_create_directory: INTEGER is 250
 			-- Failed to create directory

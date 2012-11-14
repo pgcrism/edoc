@@ -45,6 +45,7 @@ feature {NONE} -- Initialisation
 
 			-- Input options
 			option_processors.put (agent process_ace (?), "ace")
+			option_processors.put (agent process_ecf (?), "ecf")
 			option_processors.put (agent process_system (?), "system")
 			option_processors.put (agent process_library (?), "library")
 			option_processors.put (agent process_mount (?), "mount")
@@ -176,6 +177,12 @@ feature {NONE} -- Implementation
 			-- Process 'ace' option.
 		do
 			Options.set_ace_file (file_system.absolute_pathname (Execution_environment.interpreted_string (a_value)))
+		end
+
+	process_ecf (a_value: STRING) is
+			-- Process 'ecf' option.
+		do
+			Options.set_ecf_file (file_system.absolute_pathname (Execution_environment.interpreted_string (a_value)))
 		end
 
 	process_system (a_value: STRING) is

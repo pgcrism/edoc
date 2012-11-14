@@ -49,6 +49,9 @@ feature -- Access (Input)
 	xace_system: STRING
 			-- XAce file of system
 
+	ecf_file: STRING
+			-- ECF file of system
+
 	mounted_libraries: DS_LIST [STRING]
 			-- XAce files of mounted libraries
 
@@ -97,6 +100,16 @@ feature -- Element change (Input)
 			xace_system := a_file
 		ensure
 			xace_system_set: xace_system = a_file
+		end
+
+	set_ecf_file (a_file: like ecf_file)
+			-- Set `ecf_file' to `a_file'.
+		require
+			a_file_not_void: a_file /= Void
+		do
+			ecf_file := a_file
+		ensure
+			ecf_file_set: ecf_file = a_file
 		end
 
 feature -- Access (Output)

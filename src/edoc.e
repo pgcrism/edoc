@@ -90,8 +90,10 @@ feature {NONE} -- Initialization
 					load_xace_system (Options.xace_system)
 				end
 				if Options.xace_library /= Void then
-					--load_xace_library (Options.xace_library, True, True)
 					load_xace_system (Options.xace_library)
+				end
+				if Options.ecf_file /= Void then
+					load_ecf_file (Options.ecf_file)
 				end
 
 				if options.are_mounted_libraries_included then
@@ -199,6 +201,9 @@ feature {NONE} -- Initialization
 				elseif file_system.has_extension (a_filename, "ace") then
 					-- Load ace file
 					Options.set_ace_file (a_filename)
+				elseif file_system.has_extension (a_filename, "ecf") then
+					-- Load ecf file
+					Options.set_ecf_file (a_filename)
 				else
 					-- Load options file
 					load_options_file (a_filename)
@@ -232,7 +237,12 @@ feature {NONE} -- Initialization
 					Error_handler.raise_error (Error_handler.Error_xace_file_not_found, << Options.xace_library >>)
 				end
 			end
-			if Options.ace_file = Void and Options.xace_system = Void and Options.xace_library = Void then
+			if Options.ecf_file /= Void then
+				if not file_system.file_exists (Options.ecf_file) then
+					Error_handler.raise_error (Error_handler.Error_ecf_file_not_found, << Options.ecf_file >>)
+				end
+			end
+			if Options.ace_file = Void and Options.xace_system = Void and Options.xace_library = Void and Options.ecf_file = Void then
 				Error_handler.raise_error (Error_handler.Error_no_input_file, Void)
 			end
 			from Options.mounted_libraries.start until Options.mounted_libraries.after loop
@@ -382,6 +392,54 @@ feature {NONE} -- Initialization
 				i := i + 1
 			end
 			context.universe := xace_parser.last_system
+
+		end
+
+	load_ecf_file (a_system_name: STRING) is
+			-- Load ecf file.
+		require
+			ecf_system_not_void: Options.ecf_file /= Void
+			ecf_file_exists: file_system.file_exists (Options.ecf_file)
+		local
+			ecf_error_handler: ET_ECF_ERROR_HANDLER --ET_XACE_DEFAULT_ERROR_HANDLER
+			ecf_parser: ET_ECF_SYSTEM_PARSER
+			a_file: KL_TEXT_INPUT_FILE
+			i, nb: INTEGER
+		do
+			create a_file.make (a_system_name)
+			a_file.open_read
+			if not a_file.is_open_read then
+				Error_handler.raise_error (Error_handler.Error_xace_file_not_readable, << Options.xace_system >>)
+			end
+			create ecf_error_handler.make_standard
+			create ecf_parser.make (ecf_error_handler)
+			ecf_parser.parse_file (a_file)
+			if ecf_error_handler.has_error then
+				Error_handler.raise_error (Error_handler.Error_parsing_ecf, << Options.ecf_file >> )
+			end
+			if Options.title = Void then
+				Options.set_title (ecf_parser.last_system.system_name)
+			end
+			if Options.short_title = Void then
+				Options.set_short_title (ecf_parser.last_system.system_name)
+			end
+			if ecf_parser.last_system.clusters /= Void then
+				Error_handler.report_message ("Done. "+ecf_parser.last_system.clusters.count.out+" clusters")
+				Context.add_clusters (ecf_parser.last_system.clusters, True)
+			else
+				Error_handler.report_message ("Done. 0 new top-level clusters")
+			end
+
+			if ecf_parser.last_system.libraries /= Void then
+				nb := ecf_parser.last_system.libraries.libraries.count
+			else
+				nb := 0
+			end
+			from i := 1 until i > nb loop
+				Options.mounted_libraries.force_last (Execution_environment.interpreted_string (ecf_parser.last_system.libraries.libraries.item (i).library.pathname))
+				i := i + 1
+			end
+			context.universe := ecf_parser.last_system
 
 		end
 
