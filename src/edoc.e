@@ -486,7 +486,7 @@ feature -- Access
 
 	version : UT_VERSION
 		once
-			create Result.make (1, 3, 0, 1)
+			create Result.make (1, 4, 0, 1)
 		end
 
 	edoc_output: EDOC_OUTPUT
