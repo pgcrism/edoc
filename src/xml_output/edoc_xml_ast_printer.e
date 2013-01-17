@@ -291,7 +291,6 @@ feature -- Processing
 			a_feature_name, comment_text: STRING
 			a_prefix_name: ET_PREFIX_NAME
 			an_infix_name: ET_INFIX_NAME
-			fcx: EDOC_FEATURE_COMMENT_EXTRACTION
 		do
 			a_query ?= a_feature
 			a_routine ?= a_feature
