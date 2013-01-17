@@ -132,6 +132,9 @@ feature -- Basic operations
 			if universe = Void then
 				create universe.make ("system")
 				universe.set_clusters (clusters)
+			else
+--				universe.clusters.
+				do_nothing
 			end
 			universe.set_error_handler (an_error_handler)
 

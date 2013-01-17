@@ -78,6 +78,7 @@ feature -- Access
 
 feature -- Status report
 
+
 	are_strings_comments: BOOLEAN
 			-- Are strings which are currently encountered comments?
 
@@ -290,6 +291,7 @@ feature -- Processing
 			a_feature_name, comment_text: STRING
 			a_prefix_name: ET_PREFIX_NAME
 			an_infix_name: ET_INFIX_NAME
+			fcx: EDOC_FEATURE_COMMENT_EXTRACTION
 		do
 			a_query ?= a_feature
 			a_routine ?= a_feature
@@ -345,22 +347,26 @@ feature -- Processing
 			file.start_tag_css ("div", css_feature_body)
 
 			-- Comment
-			create comment_text.make_empty
-			if a_feature.is_attribute or a_feature.is_constant_attribute or a_feature.is_unique_attribute then
-				if a_feature.semicolon /= Void and then a_feature.semicolon.break /= Void then
-					create comment_text.make_from_string (a_feature.semicolon.break.text)
-				elseif a_feature.break /= Void then
-					create comment_text.make_from_string (a_feature.break.text)
-				end
-			elseif a_routine /= Void then
-				if a_routine.is_keyword /= Void and then a_routine.is_keyword.break /= Void then
-					create comment_text.make_from_string (a_routine.is_keyword.break.text)
-				elseif a_feature.break /= Void then
-					create comment_text.make_from_string (a_feature.break.text)
-				end
-			elseif a_feature.break /= Void then
-				create comment_text.make_from_string (a_feature.break.text)
-			end
+--			create comment_text.make_empty
+--			if a_feature.is_attribute or a_feature.is_constant_attribute or a_feature.is_unique_attribute then
+--				if a_feature.semicolon /= Void and then a_feature.semicolon.break /= Void then
+--					create comment_text.make_from_string (a_feature.semicolon.break.text)
+--				elseif a_feature.break /= Void then
+--					create comment_text.make_from_string (a_feature.break.text)
+--				end
+--			elseif a_routine /= Void then
+--				if a_routine.is_keyword /= Void and then a_routine.is_keyword.break /= Void then
+--					create comment_text.make_from_string (a_routine.is_keyword.break.text)
+--				elseif a_feature.break /= Void then
+--					create comment_text.make_from_string (a_feature.break.text)
+--				end
+--			elseif a_feature.break /= Void then
+--				create comment_text.make_from_string (a_feature.break.text)
+--			end
+
+			create fcx
+			fcx.process_feature (a_feature)
+			comment_text := fcx.last_comment
 			STRING_.left_adjust (comment_text)
 			STRING_.right_adjust (comment_text)
 			-- TODO: take renaming into account and print 'From old_feature_name in class_name'

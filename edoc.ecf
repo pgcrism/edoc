@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-2-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-2-0 http://www.eiffel.com/developers/xml/configuration-1-2-0.xsd" name="edoc">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="edoc" uuid="652590FC-58B3-4AE7-8F17-7CFE99A23E05">
 	<target name="edoc">
 		<root class="EDOC" feature="make"/>
+		<option is_attached_by_default="false" syntax="transitional">
+		</option>
 		<setting name="console_application" value="true"/>
-		<library name="base" location="$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name="gobo" location="$ISE_LIBRARY/library/gobo/gobo.ecf"/>
-		<cluster name="edoc" location="src/">
-			<cluster name="processing" location="src/processing/"/>
-			<cluster name="utility" location="src/utility/"/>
-			<cluster name="html_output" location="src/html_output/"/>
-			<cluster name="xml_output" location="src/xml_output/"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="gobo" location="$ISE_LIBRARY\library\gobo\gobo_all.ecf"/>
+		<library name="gobo_tools" location="$ISE_LIBRARY\library\gobo\gobo_tools.ecf"/>
+		<cluster name="edoc" location="src\">
+			<cluster name="processing" location="src\processing\"/>
+			<cluster name="utility" location="src\utility\"/>
+			<cluster name="html_output" location="src\html_output\"/>
+			<cluster name="xml_output" location="src\xml_output\"/>
 		</cluster>
 	</target>
 </system>

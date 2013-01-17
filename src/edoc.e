@@ -250,7 +250,9 @@ feature {NONE} -- Initialization
 					Error_handler.raise_warning (Error_handler.Error_mounted_xace_not_found, << Options.mounted_libraries.item_for_iteration >>)
 					Options.mounted_libraries.remove_at
 				end
-				Options.mounted_libraries.forth
+				if not options.mounted_libraries.after then
+					Options.mounted_libraries.forth
+				end
 			end
 			-- Check output directory
 			create a_directory.make (Options.output_directory)
@@ -486,7 +488,7 @@ feature -- Access
 
 	version : UT_VERSION
 		once
-			create Result.make (1, 4, 1, 1)
+			create Result.make (1, 5, 0, 1)
 		end
 
 	edoc_output: EDOC_OUTPUT

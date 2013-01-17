@@ -600,21 +600,25 @@ feature {NONE} -- Implementation
 				j := a_string.index_of ('%'', i+1)
 				if i > 0 and j > 0 then
 					substring := a_string.substring (i+1, j-1)
-					if a_class /= Void then
-						a_feature := a_class.named_feature (create {ET_IDENTIFIER}.make (substring))
-					end
-					if a_feature /= Void and then a_features_list.has (a_feature) then
-						a_link := html_context.feature_link_by_feature (a_feature, Void)
-						if a_link /= Void then
-							replacement := link_css_content_to_string (a_link, css_linked_feature_name, substring)
+					if not substring.is_empty then
+						if a_class /= Void then
+							a_feature := a_class.named_feature (create {ET_IDENTIFIER}.make (substring))
+						end
+						if a_feature /= Void and then a_features_list.has (a_feature) then
+							a_link := html_context.feature_link_by_feature (a_feature, Void)
+							if a_link /= Void then
+								replacement := link_css_content_to_string (a_link, css_linked_feature_name, substring)
+							else
+								replacement := tag_css_content_to_string ("span", css_commented_feature_name, substring)
+							end
 						else
 							replacement := tag_css_content_to_string ("span", css_commented_feature_name, substring)
 						end
+						a_string.replace_substring (replacement, i, j)
+						j := j + replacement.count - substring.count - 2
 					else
-						replacement := tag_css_content_to_string ("span", css_commented_feature_name, substring)
+						j := j+1
 					end
-					a_string.replace_substring (replacement, i, j)
-					j := j + replacement.count - substring.count - 2
 				end
 			end
 		end
