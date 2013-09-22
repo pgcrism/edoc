@@ -291,6 +291,7 @@ feature -- Processing
 			a_feature_name, comment_text: STRING
 			a_prefix_name: ET_PREFIX_NAME
 			an_infix_name: ET_INFIX_NAME
+			a_comment_processor: EDOC_FEATURE_COMMENT_PROCESSOR
 		do
 			a_query ?= a_feature
 			a_routine ?= a_feature
@@ -346,13 +347,9 @@ feature -- Processing
 			file.start_tag_css ("div", css_feature_body)
 
 			-- Comment
-			if a_feature.header_break /= Void then
-				comment_text := a_feature.header_break.text
-			else
-				create comment_text.make_empty
-			end
-			STRING_.left_adjust (comment_text)
-			STRING_.right_adjust (comment_text)
+			create a_comment_processor
+			a_comment_processor.process_feature (a_feature)
+			comment_text := a_comment_processor.last_comment
 			-- TODO: take renaming into account and print 'From old_feature_name in class_name'
 			if not precursors.is_empty then
 				comment_text.append_string ("%N -- (From "+precursors.first.implementation_class.name.name+")%N")

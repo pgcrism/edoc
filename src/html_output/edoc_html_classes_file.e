@@ -53,7 +53,7 @@ feature -- Basic operations
 					start_tag ("li")
 					a_line := print_class_name_to_string (a_class)
 					a_line.append_string (tag_css_content_to_string ("span", css_index_small, " - Class in "+print_qualified_cluster_name_to_string (a_class.group.cluster, True)))
---					a_line.append_string (print_class_description_to_string (a_class))
+					a_line.append_string (print_class_description_to_string (a_class))
 					content_line (a_line)
 					end_tag
 					a_class_cursor.forth
@@ -73,7 +73,7 @@ feature -- Basic operations
 	print_class_description_to_string (a_class: ET_CLASS) : STRING
 		do
 			create Result.make (100)
-			a_class.first_indexing.do_if (agent (an_item: ET_INDEXING_ITEM) do end (?), agent is_description (?))
+			a_class.first_indexing.do_if (agent (an_item: ET_INDEXING_ITEM; a_buffer:STRING) do a_buffer.append_string(class_description (an_item)) end (?, Result), agent is_description (?))
 		end
 
 	is_description (an_indexing_item: ET_INDEXING_ITEM) : BOOLEAN
@@ -88,14 +88,15 @@ feature -- Basic operations
 	class_description (an_indexing_item: ET_INDEXING_ITEM) : STRING
 		do
 			create Result.make_empty
---			if attached {ET_TAGGED_INDEXING} an_indexing_item as l_ti then
---				l_ti.terms.do_all (agent (a_item: ET_INDEXING_TERM_ITEM; a_string : STRING)
---					do
---						if a_item.indexing_term. then
-
---						end
---					end (?, Result))
---			end
+			if attached {ET_TAGGED_INDEXING} an_indexing_item as l_ti then
+				l_ti.terms.do_all (agent (a_item: ET_INDEXING_TERM_ITEM; a_string : STRING)
+					do
+						if attached {ET_MANIFEST_STRING}a_item as l_ms then
+							a_string.append_string (l_ms.value)
+						end
+					end (?, Result))
+				do_nothing
+			end
 		end
 
 end

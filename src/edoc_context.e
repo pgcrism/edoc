@@ -143,6 +143,7 @@ feature -- Basic operations
 			universe.set_use_reference_keyword (True)
 			universe.set_preparse_enabled (True)
 			universe.set_preparse_multiple_mode
+			universe.set_flat_mode (True)
 			universe.preparse
 			universe.activate_processors
 		ensure
@@ -191,6 +192,7 @@ feature -- Basic operations
 
 			Error_handler.report_message ("EiffelParser: Compiling degree 4 - Start: "+system_clock.time_now.time_out)
 			universe.compile_degree_4
+			universe.compile_degree_3
 			Error_handler.report_message ("EiffelParser: Compiling done - Finish: "+system_clock.time_now.time_out)
 			create a_time.make_from_millisecond_count (system_clock.time_now.millisecond_count-start_time)
 			Error_handler.report_message ("EiffelParser: Total time: "+a_time.time_out)
